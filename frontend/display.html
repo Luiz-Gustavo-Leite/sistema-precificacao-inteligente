@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>OLED Virtual</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+
+    body{
+
+      margin:0;
+
+      padding:0;
+
+      background:#050505;
+
+      display:flex;
+
+      justify-content:center;
+
+      align-items:center;
+
+      height:100vh;
+
+      font-family:Arial, sans-serif;
+    }
+
+    .oled-container{
+
+      width:90%;
+
+      max-width:500px;
+
+      background:#111;
+
+      border:3px solid #7b2cff;
+
+      border-radius:20px;
+
+      padding:30px;
+
+      box-shadow:0 0 30px rgba(123,44,255,0.5);
+    }
+
+    .oled-title{
+
+      text-align:center;
+
+      color:#b388ff;
+
+      font-size:18px;
+
+      margin-bottom:25px;
+
+      font-weight:bold;
+
+      letter-spacing:2px;
+    }
+
+    .oled-screen{
+
+      background:black;
+
+      border-radius:15px;
+
+      padding:40px 20px;
+
+      text-align:center;
+
+      border:2px solid #222;
+    }
+
+    #display-canal{
+
+      color:#b388ff;
+
+      font-size:24px;
+
+      margin-bottom:25px;
+
+      font-weight:bold;
+    }
+
+    #display-produto{
+
+      color:white;
+
+      font-size:42px;
+
+      font-weight:bold;
+
+      margin-bottom:25px;
+
+      text-transform:uppercase;
+
+      word-break:break-word;
+    }
+
+    #display-preco{
+
+      color:#00ff99;
+
+      font-size:38px;
+
+      font-weight:bold;
+    }
+
+.ultima-atualizacao {
+  background: #1a1028;
+  border: 2px solid #7b2cff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ultima-titulo {
+  color: #b388ff;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+#ultimo-canal {
+  color: #b388ff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#ultimo-produto {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  margin-bottom: 5px;
+}
+
+#ultimo-preco {
+  color: #00ff99;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+    .status{
+
+      text-align:center;
+
+      color:#666;
+
+      margin-top:20px;
+
+      font-size:14px;
+    }
+
+/* =========================================
+   OLED VIRTUAL - MODO CLARO
+========================================= */
+
+body.light-mode {
+    background: #f4f0fa;
+    color: #222;
+}
+
+body.light-mode .oled-container {
+    background: #ffffff;
+    border-color: #7b2cff;
+    box-shadow: 0 0 25px rgba(123, 44, 255, 0.2);
+}
+
+body.light-mode .oled-title {
+    color: #7c3aed;
+}
+
+body.light-mode .ultima-atualizacao {
+    background: #f4efff;
+    border-color: #a78bfa;
+}
+
+body.light-mode .ultima-titulo,
+body.light-mode #ultimo-canal {
+    color: #7c3aed;
+}
+
+body.light-mode #ultimo-produto {
+    color: #222222;
+}
+
+body.light-mode #ultimo-preco {
+    color: #009966;
+}
+
+body.light-mode .canal-selector label {
+    color: #333333;
+}
+
+body.light-mode .canal-selector select {
+    background: #ffffff;
+    color: #222222;
+    border: 1px solid #cccccc;
+}
+
+body.light-mode .oled-screen {
+    background: #ffffff;
+    border-color: #dddddd;
+}
+
+body.light-mode #display-canal {
+    color: #7c3aed;
+}
+
+body.light-mode #display-produto {
+    color: #222222;
+}
+
+body.light-mode #display-preco {
+    color: #009966;
+}
+
+body.light-mode .status {
+    color: #7c3aed;
+}
+
+  </style>
+
+</head>
+
+<body>
+
+    <button class="theme-toggle" onclick="alternarTema()">
+
+    🌙
+
+</button>
+
+  <div class="oled-container">
+
+<div class="oled-title">
+
+    OLED VIRTUAL
+
+</div>
+
+    <div class="ultima-atualizacao">
+    <div class="ultima-titulo">ÚLTIMA ATUALIZAÇÃO</div>
+    <div id="ultimo-canal">Nenhuma atualização</div>
+    <div id="ultimo-produto">Aguardando dados...</div>
+    <div id="ultimo-preco">R$ 0,00</div>
+</div>
+
+<div class="canal-selector">
+
+    <label for="selecionar-canal">Escolha o canal:</label>
+
+    <select id="selecionar-canal">
+    <option value="2" selected>Canal 2</option>
+    <option value="3">Canal 3</option>
+    <option value="4">Canal 4</option>
+    <option value="5">Canal 5</option>
+    <option value="6">Canal 6</option>
+    <option value="7">Canal 7</option>
+</select>
+
+</div>
+
+    <div class="oled-screen">
+
+    <div id="display-canal">
+    CANAL 2
+</div>
+
+      <div id="display-produto">
+
+        PRODUTO
+
+      </div>
+
+      <div id="display-preco">
+
+        R$ 0,00
+
+      </div>
+
+    </div>
+
+    <div class="status">
+
+      Atualização em tempo real
+
+    </div>
+
+  </div>
+
+  <script src="display.js"></script>
+
+  <script src="theme.js"></script>
+
+</body>
+
+</html>

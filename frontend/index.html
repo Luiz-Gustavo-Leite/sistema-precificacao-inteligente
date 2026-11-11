@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>Precificação Digital</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <button class="theme-toggle" onclick="alternarTema()">
+
+    🌙
+
+</button>
+
+  <div class="container">
+
+    <!-- TOPO -->
+    <div class="topbar">
+
+      <h1>Precificação Digital</h1>
+
+      <button onclick="logout()">
+        Sair
+      </button>
+
+    </div>
+
+    <p class="lead">
+      Sistema de gerenciamento OLED
+    </p>
+
+    <!-- ÁREA ADMIN -->
+    <div id="admin-area">
+
+      <form id="form">
+
+        <div class="row">
+
+          <div class="col">
+
+            <label for="canal">Canal</label>
+
+            <select id="canal" name="canal">
+
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+
+            </select>
+
+          </div>
+
+          <div class="col" style="flex:2">
+
+            <label for="nome">
+              Nome do produto
+            </label>
+
+            <input
+              id="nome"
+              name="nome"
+              required
+              placeholder="Ex: Teclado"
+            />
+
+          </div>
+
+          <div class="col">
+
+            <label for="preco">
+              Preço
+            </label>
+
+            <input
+              id="preco"
+              name="preco"
+              required
+              placeholder="12,34"
+            />
+
+          </div>
+
+        </div>
+
+        <div style="margin-top:12px">
+
+          <button
+            class="primary"
+            type="submit"
+            id="sendBtn"
+          >
+            Atualizar OLED
+          </button>
+
+          <span id="status" class="status"></span>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div class="toolbar">
+
+      <div style="display:flex;gap:8px;align-items:center">
+
+        <strong>Histórico recente</strong>
+
+        <input
+          id="filterInput"
+          class="search"
+          placeholder="Filtrar por nome, canal ou data..."
+        />
+
+      </div>
+
+      <div>
+
+        <button
+          id="downloadReport"
+          class="export-btn"
+        >
+          📊 Baixar Relatório
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================
+     ÁREA ADMIN
+====================================== -->
+
+<div id="admin-users-area" class="card">
+
+  <h2>Gerenciamento de Usuários</h2>
+
+  <div class="row">
+
+    <div class="col">
+
+      <label>Usuário</label>
+
+      <input
+        type="text"
+        id="newUsername"
+        placeholder="Digite o usuário"
+      />
+
+    </div>
+
+    <div class="col">
+
+      <label>Senha</label>
+
+      <input
+        type="password"
+        id="newPassword"
+        placeholder="Digite a senha"
+      />
+
+    </div>
+
+    <div class="col">
+
+      <label>Perfil</label>
+
+      <select id="newPerfil">
+
+        <option value="colaborador">
+          Colaborador
+        </option>
+
+        <option value="admin">
+          Admin
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <button onclick="createUser()">
+
+    Criar Usuário
+
+  </button>
+
+  <div
+    id="usersList"
+    style="margin-top:20px;"
+  ></div>
+
+</div>
+
+    <div id="history"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+  <script src="theme.js"></script>
+
+</body>
+</html>

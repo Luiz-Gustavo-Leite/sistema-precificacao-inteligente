@@ -1,0 +1,16 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Dados locais e relatórios gerados
+*.db
+backend/relatorios/
+
+# Ambiente local
+.env
+.DS_Store
+Thumbs.db
+# Configurações locais do VS Code
+.vscode/
