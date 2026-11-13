@@ -1,12 +1,45 @@
 # Sistema de Precificação Inteligente
 
-Projeto de sistema de precificação com interface web, backend desenvolvido em Python/Flask, armazenamento de dados SQLite e integração com displays OLED.
+Sistema de gerenciamento de preços por canais, com interface web, backend em Python/Flask, banco de dados SQLite e integração com displays OLED. O projeto foi desenvolvido para demonstrar a atualização de preços em uma estrutura de exposição de produtos, com possibilidade de expansão para comunicação remota e aplicativo móvel.
 
-## Estrutura do Projeto
+![Protótipo do Sistema de Precificação Inteligente](docs/imagens/capa-sistema.png)
+## Visão geral
+
+A aplicação permite registrar o produto e o preço associado a um canal, consultar o histórico de atualizações e apresentar as informações nos displays OLED. Também possui autenticação de usuários e perfis de acesso, além de recursos de geração de relatórios.
+
+## Funcionalidades
+
+- Cadastro e atualização de produtos e preços por canal.
+- Histórico de solicitações e alterações de preços.
+- Interface web com modo claro e modo escuro.
+- Tela OLED virtual com atualização automática e seleção de canal.
+- Integração com displays OLED físicos por meio de multiplexador I2C.
+- Autenticação e gerenciamento de usuários com perfis de acesso.
+- Geração e exportação de relatórios em Excel.
+- Modo simulado para desenvolvimento e testes sem o hardware conectado.
+
+## Tecnologias e componentes
+
+**Software**
+
+- Python
+- Flask
+- SQLite
+- HTML5, CSS3 e JavaScript
+- Pandas
+
+**Hardware**
+
+- Displays OLED SSD1306
+- Multiplexador I2C TCA9548A/PCA9548A
+- Microcontrolador Arduino (na montagem apresentada no projeto)
+- Raspberry Pi (na evolução/estrutura de hardware documentada)
+- Estrutura física de prateleiras, cabeamento e fonte de alimentação
+
+## Estrutura do projeto
 
 ```text
 projeto_oled/
-│
 ├── backend/
 │   ├── app.py
 │   ├── auth.py
@@ -15,7 +48,6 @@ projeto_oled/
 │   ├── oled_display.py
 │   ├── precificacao.py
 │   └── relatorio.py
-│
 ├── frontend/
 │   ├── login.html
 │   ├── login.js
@@ -25,51 +57,61 @@ projeto_oled/
 │   ├── display.js
 │   ├── style.css
 │   └── theme.js
-│
+├── docs/
+│   └── imagens/
 ├── .env.example
 ├── .gitignore
-├── requirements.txt
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
-## Tecnologias Utilizadas
+## Demonstração do hardware
 
-- Python
-- Flask
-- SQLite
-- HTML5
-- CSS3
-- JavaScript
-- Pandas
-- Displays OLED SSD1306
-- Multiplexador I2C TCA9548A
+As imagens abaixo registram a estrutura física, os displays OLED e a montagem dos componentes utilizados nos testes.
 
-## Funcionalidades
+### Estrutura e displays OLED
 
-- Gerenciamento de preços por canais.
-- Atualização de informações dos produtos.
-- Histórico de solicitações e preços.
-- Interface web com modo claro e escuro.
-- Tela OLED virtual com atualização automática.
-- Integração com displays OLED físicos.
-- Sistema de autenticação de usuários.
-- Gerenciamento de usuários e perfis.
-- Geração e exportação de relatórios Excel.
-- Modo simulado para desenvolvimento sem hardware.
+![Estrutura e displays OLED](docs/imagens/hardware-estrutura-displays.png)
 
-## Observações
+*Estrutura de exposição com displays OLED instalados nas prateleiras.*
 
-Os bancos de dados SQLite, relatórios gerados, ambientes virtuais e arquivos temporários não estão incluídos neste repositório.
+### Montagem e cabeamento
 
-O banco de dados é inicializado pela aplicação conforme o código do projeto.
+![Montagem do hardware e cabeamento](docs/imagens/hardware-montagem-cabeamento.png)
 
-Este repositório preserva os arquivos-fonte da aplicação, sem alterações nas funcionalidades existentes.
+*Detalhes da montagem eletrônica, conexões e componentes do sistema.*
 
-## Instalação e Configuração
+### Vista frontal do protótipo
+
+![Vista frontal do protótipo](docs/imagens/prototipo-vista-frontal.png)
+
+*Vista frontal do protótipo físico com os displays posicionados na estrutura.*
+
+## Interfaces do sistema
+
+### Tela de login
+
+![Tela de login](docs/imagens/interface-login.jpg)
+
+*Interface de autenticação para acesso ao sistema.*
+
+### Registro e gerenciamento — perfil administrador
+
+![Registro e gerenciamento pelo administrador](docs/imagens/interface-registro-admin.jpg)
+
+*Interface de registro de preços e gerenciamento de usuários no perfil administrador.*
+
+### Histórico — perfil colaborador
+
+![Histórico do perfil colaborador](docs/imagens/interface-historico-colaborador.jpg)
+
+*Visualização do histórico disponível no perfil colaborador.*
+
+## Instalação e configuração
 
 ### 1. Instalar as dependências
 
-Na raiz do projeto, execute:
+Na pasta raiz do projeto, execute:
 
 ```bash
 pip install -r requirements.txt
@@ -77,82 +119,54 @@ pip install -r requirements.txt
 
 ### 2. Configurar a chave secreta do Flask
 
-Por segurança, a chave de sessão do Flask não fica escrita diretamente no código.
-
-1. Na raiz do projeto, copie o arquivo `.env.example`.
-2. Crie uma cópia chamada `.env`.
-3. Gere uma chave forte e exclusiva com Python:
+Crie uma cópia do arquivo `.env.example` com o nome `.env`. Gere uma chave exclusiva com:
 
 ```bash
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-4. Copie o valor gerado para dentro do arquivo `.env`, após `FLASK_SECRET_KEY=`.
-
-Exemplo:
+Insira o valor gerado no arquivo `.env`:
 
 ```env
 FLASK_SECRET_KEY=sua_chave_secreta_aqui
 ```
 
-**Importante:** nunca publique o arquivo `.env` no GitHub. Ele já está listado no `.gitignore`.
-
-Cada instalação deve utilizar sua própria chave. Caso ela seja alterada, as sessões de login existentes serão invalidadas.
+**Importante:** não publique nem compartilhe o arquivo `.env`. Ele deve permanecer listado no `.gitignore`.
 
 ### 3. Criar o primeiro administrador
 
-O projeto não utiliza contas com senhas padrão, como `admin123` ou `colab123`.
-
-Em uma instalação nova, depois de configurar o arquivo `.env`, execute:
+Em uma instalação nova, execute:
 
 ```bash
 python backend/create_admin.py
 ```
 
-O programa solicitará:
+Siga as instruções no terminal para cadastrar o usuário administrador e uma senha forte.
 
-- Nome de usuário do administrador.
-- Senha com pelo menos 12 caracteres.
-- Confirmação da senha.
+### 4. Executar a aplicação
 
-A senha não aparece durante a digitação e é armazenada no banco de dados utilizando hash.
-
-Depois da criação, entre no sistema com as credenciais cadastradas e utilize o gerenciamento de usuários para adicionar colaboradores.
-
-**Atenção para bancos de dados antigos:** a remoção de contas padrão do código não exclui automaticamente usuários já existentes no SQLite. Verifique se existem contas antigas utilizando senhas padrão e altere ou exclua essas contas antes de disponibilizar o sistema.
-
-## Executar a Aplicação
-
-Na raiz do projeto, execute:
+Na pasta raiz do projeto, execute:
 
 ```bash
 python backend/app.py
 ```
 
-O servidor Flask será iniciado na porta `5000`.
-
 Acesse pelo navegador:
 
-- Login: http://localhost:5000
-- Sistema: http://localhost:5000/system
-- OLED virtual: http://localhost:5000/display
+- Login: `http://localhost:5000`
+- Sistema: `http://localhost:5000/system`
+- OLED virtual: `http://localhost:5000/display`
 
-Para acessar pelo celular na mesma rede Wi-Fi, utilize o endereço IP do computador no lugar de `localhost`.
+Para acessar pelo celular na mesma rede Wi-Fi, utilize o endereço IP local do computador no lugar de `localhost`. O servidor precisa estar em execução e configurado para aceitar conexões na rede.
 
-## Modo Simulado
+## Segurança e arquivos locais
 
-Quando as bibliotecas ou o hardware necessário para os displays OLED não estiverem disponíveis, o sistema poderá utilizar o modo simulado.
+- Não publique arquivos `.env`, senhas ou chaves de acesso.
+- Não inclua bancos de dados locais com dados privados ou reais.
+- Ambientes virtuais, arquivos temporários e relatórios gerados devem permanecer fora do repositório.
+- Em uma instalação nova, crie credenciais próprias; não utilize senhas padrão.
+- Antes de disponibilizar o sistema pela internet, implemente e revise as configurações de segurança e hospedagem.
 
-Nesse modo, as operações são apresentadas no terminal, permitindo testar parte do funcionamento sem os displays físicos.
+## Desenvolvimento futuro
 
-## Segurança
-
-- Não compartilhar arquivos `.env`.
-- Não publicar senhas ou chaves de acesso.
-- Não incluir bancos de dados locais com informações privadas.
-- Utilizar senhas fortes para as contas.
-- Configurar o servidor adequadamente antes de disponibilizá-lo pela internet.
-
-## Projeto em Desenvolvimento
-
-O Sistema de Precificação Inteligente está em desenvolvimento contínuo, com perspectivas de expansão para integração com aplicativo móvel Flutter e comunicação remota com dispositivos Raspberry Pi.
+O projeto está em desenvolvimento contínuo. Entre as possibilidades de evolução estão um aplicativo móvel em Flutter e a comunicação remota com dispositivos Raspberry Pi, mantendo a integração com os displays OLED.
